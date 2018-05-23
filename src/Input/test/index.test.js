@@ -47,7 +47,7 @@ describe('Input', () => {
     expect(component.state().value).toEqual('');
   });
 
-  it('should have focus assigned to it automatically', () => {
+  it.skip('should have focus assigned to it automatically', () => {
     //given
     const component = mount(<Input/>)
     const input = component.find('input');

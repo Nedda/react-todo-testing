@@ -20,7 +20,7 @@ class ListItem extends React.Component {
       <div>
         <ListWrapper
           completed={this.props.listItem.completed}
-          > {this.props.listItem.task} </ListWrapper>
+          >{this.props.listItem.task}</ListWrapper>
         <StyledButton onClick={this.props.markItemDone}>done</StyledButton>
       </div>
     )

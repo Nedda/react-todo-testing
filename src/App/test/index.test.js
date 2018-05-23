@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App  from './App';
-import Input from './Input/';
-import ListItem from './ListItem/';
+import App  from '../index.js';
+import Input from '../../Input/';
+import ListItem from '../../ListItem/';
 import { mount } from 'enzyme';
 
 describe('App', () => {
