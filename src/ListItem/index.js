@@ -3,6 +3,11 @@ import styled from 'styled-components';
 
 export const ListWrapper = styled.span`
   background: ${props => props.completed ? 'red' : 'blue'};
+  cursor: pointer;
+`;
+
+export const StyledButton = styled.button`
+  background: yellow;
 `;
 
 class ListItem extends React.Component {
@@ -15,8 +20,8 @@ class ListItem extends React.Component {
       <div>
         <ListWrapper
           completed={this.props.listItem.completed}
-          >{this.props.listItem.task}</ListWrapper>
-        <button onClick={this.props.markItemDone}>done</button>
+          > {this.props.listItem.task} </ListWrapper>
+        <StyledButton onClick={this.props.markItemDone}>done</StyledButton>
       </div>
     )
   }

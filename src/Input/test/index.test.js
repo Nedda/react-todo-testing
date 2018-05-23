@@ -46,4 +46,12 @@ describe('Input', () => {
     expect(spy.mock.calls).toEqual([[newTodo]])
     expect(component.state().value).toEqual('');
   });
+
+  it('should have focus assigned to it automatically', () => {
+    //given
+    const component = mount(<Input/>)
+    const input = component.find('input');
+    expect(input.is('input:focus')).toBe(true);
+
+  })
 })

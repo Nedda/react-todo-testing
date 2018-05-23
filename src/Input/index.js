@@ -25,6 +25,7 @@ class Input extends React.Component {
     return <input type="text" 
       value={this.state.value}
       onChange={this.handleChange}
+      autoFocus
       onKeyPress={this.handleEnterSubmit}/>;
   }
 }

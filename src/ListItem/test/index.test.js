@@ -11,10 +11,10 @@ describe('ListItem', () => {
     const itemValue = component.find(ListWrapper);
     //then
     expect(itemValue).toHaveLength(1);
-    expect(itemValue.text()).toEqual(`${value}`);
+    expect(itemValue.text()).toEqual(`${value.task}`);
   });
 
-  it('should correctly strike through when item is checked off', () => {
+  it('should trigger corrent update function on Click', () => {
     //given 
     const value = { task: 'new todo', completed: false };
     const spy = jest.fn();
@@ -25,6 +25,5 @@ describe('ListItem', () => {
     button.simulate('click');
 
     //then
-    expect(itemValue.text()).toEqual(`${value}`);
   });
 })
