@@ -5,35 +5,25 @@ import * as R from 'ramda';
 import Input from '../Input';
 import ListItem from '../ListItem';
 import ClearButton from '../ClearButton';
-
-export const Button = ({text, update}) => <div onClick={ () => update() }>{text}</div>
+import { connect } from 'react-redux';
 
 class App extends Component {
   constructor(props) { 
     super(props);
-    this.state = {
-      list: [],
-      done: [],
-    }
     this.addToList = this.addToList.bind(this);
     this.removeFromList = this.removeFromList.bind(this);
   }
 
   addToList(value) {
-    this.setState({ list: R.append({ task: value, completed: false} , this.state.list) })
+    this.props.updateState({ task: value, completed: false});
   }
 
   removeFromList() {
-    this.setState({list: R.reject(x => R.equals(x.completed, true), this.state.list)})
+    this.props.removeCompletedTasks();
   }
 
   markItemDone(item) {
-    const newList = R.map(
-             R.when(
-               R.propEq('task', item.task), 
-               R.assoc('completed', true)
-             ), this.state.list);
-    this.setState({list: newList})
+    this.props.updateTaskState(item.task);
   }
 
   render() {
@@ -42,14 +32,23 @@ class App extends Component {
         <Input
           addToList={this.addToList}
         />
-        {console.log(this.state.list)}
-        {R.map(x => <ListItem listItem={x} markItemDone={() => this.markItemDone(x)}/>, this.state.list)}
+        {R.map(x => <ListItem listItem={x} markItemDone={() => this.markItemDone(x)}/>, this.props.todoList)}
         <ClearButton 
-            removeDoneItems={this.removeFromList}
+          removeDoneItems={this.removeFromList}
         />
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  todoList: state.todo,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  updateState: (payload) => dispatch({type: 'ADD_TASK', payload}),
+  updateTaskState: (payload) => dispatch({type: 'COMPLETE_TASK', payload}),
+  removeCompletedTasks: (payload) => dispatch({type: 'REMOVE_TASK', payload}),
+});
+
+  export default connect(mapStateToProps, mapDispatchToProps)(App);
