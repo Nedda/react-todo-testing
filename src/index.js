@@ -7,7 +7,7 @@ import { reducer } from './App/reducer';
 import { Provider } from 'react-redux';
 import registerServiceWorker from './registerServiceWorker';
 
-const mappedReducer = combineReducers({
+export const mappedReducer = combineReducers({
     todo: reducer
 })
 

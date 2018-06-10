@@ -1,13 +1,17 @@
 import React from 'react';
+import * as R from 'ramda';
 
-class Input extends React.Component {
-  constructor(props) {
-    super(props);
+export default class Input extends React.Component {
+  constructor(...arge) {
+    super(...arge);
     this.state = {
       value: ''
     }
-    this.handleEnterSubmit = this.handleEnterSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.focusInput = React.createRef();
+  }
+
+  componentDidMount() {
+    this.focusInput.current.focus();
   }
 
   handleChange(e) {
@@ -15,19 +19,20 @@ class Input extends React.Component {
   }
 
   handleEnterSubmit(e) {
-    if(e.key === 'Enter'){
+    const whiteSpaceCheck = x => R.not(R.equals(x, ' '));
+    if(e.key === 'Enter' && R.any(whiteSpaceCheck, this.state.value)){
       this.props.addToList(this.state.value);
       this.setState({value: ''})
+      this.focusInput.current.focus();
     }
   }
 
   render() {
     return <input type="text" 
+      ref={this.focusInput}
       value={this.state.value}
-      onChange={this.handleChange}
-      autoFocus
-      onKeyPress={this.handleEnterSubmit}/>;
+      onChange={(e) => this.handleChange(e)}
+      onKeyPress={(e) => this.handleEnterSubmit(e)}/>;
   }
 }
 
-export default Input;
