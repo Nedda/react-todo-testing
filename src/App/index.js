@@ -5,7 +5,10 @@ import * as R from 'ramda';
 import Input from '../Input';
 import ListItem from '../ListItem';
 import ClearButton from '../ClearButton';
+import { actions } from './reducer.js';
 import { connect } from 'react-redux';
+
+const mapIndex = R.addIndex(R.map);
 
 class App extends Component {
   constructor(props) { 
@@ -15,7 +18,7 @@ class App extends Component {
   }
 
   addToList(value) {
-    this.props.updateState({ task: value, completed: false});
+    this.props.addTask(value);
   }
 
   removeFromList() {
@@ -32,7 +35,7 @@ class App extends Component {
         <Input
           addToList={this.addToList}
         />
-        {R.map(x => <ListItem listItem={x} markItemDone={() => this.markItemDone(x)}/>, this.props.todoList)}
+        {mapIndex((item, index) => <ListItem key={index} listItem={item} markItemDone={() => this.markItemDone(item)}/>, this.props.todoList)}
         <ClearButton 
           removeDoneItems={this.removeFromList}
         />
@@ -46,9 +49,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  updateState: (payload) => dispatch({type: 'ADD_TASK', payload}),
-  updateTaskState: (payload) => dispatch({type: 'COMPLETE_TASK', payload}),
-  removeCompletedTasks: (payload) => dispatch({type: 'REMOVE_TASK', payload}),
+  addTask: (payload) => dispatch(actions.addTask(payload)),
+  updateTaskState: (payload) => dispatch(actions.completeTask(payload)),
+  removeCompletedTasks: (payload) => dispatch(actions.clearCompletedTasks(payload)),
 });
 
   export default connect(mapStateToProps, mapDispatchToProps)(App);
